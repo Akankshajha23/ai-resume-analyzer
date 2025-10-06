@@ -22,7 +22,7 @@ export default function Home() {
   }, [auth.isAuthenticated]);
 
   return (
-    <main className="bg-[url('/images/bg-main.svg')] bg-cover">
+    <main className="bg-gradient">
       <Navbar />
       <section className="main-section">
         <div className="page-heading py-16">
