@@ -106,7 +106,7 @@ form {
   }
 
   .navbar {
-    @apply flex flex-row justify-between items-center bg-[#141414] rounded-full p-4 w-full px-10 max-w-[1200px] mx-auto;
+    @apply flex flex-row justify-between items-center bg-[#033714] rounded-full p-4 w-full px-10 max-w-[1200px] mx-auto;
   }
 
   .score-badge {
@@ -138,7 +138,7 @@ form {
 }
 
 @utility text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#00ff66] via-[#ffffff] to-[#00ff66];
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#00ff66] via-[#f4f1f1] to-[#00ff66];
 }
 
 @utility gradient-hover {
