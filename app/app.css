@@ -121,7 +121,7 @@ form {
     @apply relative p-8 text-center transition-all duration-700 cursor-pointer bg-[#1a1a1a] rounded-2xl min-h-[208px];
   }
   .uploader-selected-file {
-    @apply flex items-center justify-between p-3 bg-[#1a1a1a] rounded-2xl;
+    @apply flex items-center justify-between p-3 bg-[#11c95b] rounded-2xl;
   }
 }
 
