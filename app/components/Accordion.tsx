@@ -1,6 +1,6 @@
+
 import type { ReactNode } from "react";
 import React, { createContext, useContext, useState } from "react";
-import { cn } from "~/lib/utils";
 
 interface AccordionContextType {
   activeItems: string[];
@@ -55,7 +55,7 @@ export const Accordion: React.FC<AccordionProps> = ({
     <AccordionContext.Provider
       value={{ activeItems, toggleItem, isItemActive }}
     >
-      <div className={`space-y-2 ${className}`}>{children}</div>
+      <div className={`space-y-3 ${className}`}>{children}</div>
     </AccordionContext.Provider>
   );
 };
@@ -71,8 +71,19 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   children,
   className = "",
 }) => {
+  const { isItemActive } = useAccordion();
+  const isActive = isItemActive(id);
+  
   return (
-    <div className={`overflow-hidden border-b border-gray-200 ${className}`}>
+    <div 
+      className={`
+        overflow-hidden rounded-xl bg-[#14141f] 
+        transition-all duration-300
+        ${isActive ? 'shadow-[0_0_20px_rgba(107,140,255,0.15)]' : 'shadow-[inset_0_0_12px_0_rgba(107,140,255,0.15)]'}
+        hover:shadow-[0_0_25px_rgba(107,140,255,0.2)]
+        ${className}
+      `}
+    >
       {children}
     </div>
   );
@@ -98,18 +109,22 @@ export const AccordionHeader: React.FC<AccordionHeaderProps> = ({
 
   const defaultIcon = (
     <svg
-      className={cn("w-5 h-5 transition-transform duration-200", {
-        "rotate-180": isActive,
-      })}
+      className={`w-4 h-4 transition-transform duration-300 ease-out ${isActive ? 'rotate-180' : ''}`}
       fill="none"
-      stroke="#98A2B3"
+      stroke="url(#iconGradient)"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
+      <defs>
+        <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#6b8cff" />
+          <stop offset="100%" stopColor="#8b5cf6" />
+        </linearGradient>
+      </defs>
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth={2}
+        strokeWidth={2.5}
         d="M19 9l-7 7-7-7"
       />
     </svg>
@@ -123,15 +138,22 @@ export const AccordionHeader: React.FC<AccordionHeaderProps> = ({
     <button
       onClick={handleClick}
       className={`
-        w-full px-4 py-3 text-left
+        w-full px-5 py-4 text-left
         focus:outline-none
-        transition-colors duration-200 flex items-center justify-between cursor-pointer
+        transition-all duration-300 
+        flex items-center justify-between 
+        cursor-pointer
+        group
+        ${isActive ? 'bg-gradient-to-r from-[#6b8cff08] to-[#8b5cf608]' : ''}
+        hover:bg-gradient-to-r hover:from-[#6b8cff0a] hover:to-[#8b5cf60a]
         ${className}
       `}
     >
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-3 flex-1">
         {iconPosition === "left" && (icon || defaultIcon)}
-        <div className="flex-1">{children}</div>
+        <div className="flex-1 text-sm font-medium text-[#a0b4ec] group-hover:text-[#c0d0ff] transition-colors duration-200">
+          {children}
+        </div>
       </div>
       {iconPosition === "right" && (icon || defaultIcon)}
     </button>
@@ -155,12 +177,13 @@ export const AccordionContent: React.FC<AccordionContentProps> = ({
   return (
     <div
       className={`
-        overflow-hidden transition-all duration-300 ease-in-out
-        ${isActive ? "max-h-fit opacity-100" : "max-h-0 opacity-0"}
-        ${className}
+        transition-all duration-300 ease-in-out
+        ${isActive ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"}
       `}
     >
-      <div className="px-4 py-3 ">{children}</div>
+      <div className={`px-5 pb-4 pt-1 text-sm text-[#8a9ab8] leading-relaxed border-t border-[#1a1f3d] ${className}`}>
+        {children}
+      </div>
     </div>
   );
 };
